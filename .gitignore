@@ -1,0 +1,355 @@
+
+Data/Transport/SmartLocationDatabaseV3.zip
+Data/Transport/SmartLocationDatabase.gdb/timestamps
+Data/Transport/SmartLocationDatabase.gdb/gdb
+Data/Transport/SmartLocationDatabase.gdb/a00000009.spx
+Data/Transport/SmartLocationDatabase.gdb/a00000009.horizon
+Data/Transport/SmartLocationDatabase.gdb/a00000009.gdbtablx
+Data/Transport/SmartLocationDatabase.gdb/a00000009.gdbtable
+Data/Transport/SmartLocationDatabase.gdb/a00000009.gdbindexes
+Data/Transport/SmartLocationDatabase.gdb/a00000007.gdbtablx
+Data/Transport/SmartLocationDatabase.gdb/a00000007.gdbtable
+Data/Transport/SmartLocationDatabase.gdb/a00000007.gdbindexes
+Data/Transport/SmartLocationDatabase.gdb/a00000007.CatRelTypesByUUID.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000007.CatRelTypesByOriginItemTypeID.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000007.CatRelTypesByName.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000007.CatRelTypesByForwardLabel.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000007.CatRelTypesByDestItemTypeID.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000007.CatRelTypesByBackwardLabel.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000006.gdbtablx
+Data/Transport/SmartLocationDatabase.gdb/a00000006.gdbtable
+Data/Transport/SmartLocationDatabase.gdb/a00000006.gdbindexes
+Data/Transport/SmartLocationDatabase.gdb/a00000006.FDO_UUID.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000006.CatRelsByType.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000006.CatRelsByOriginID.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000006.CatRelsByDestinationID.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000005.gdbtablx
+Data/Transport/SmartLocationDatabase.gdb/a00000005.gdbtable
+Data/Transport/SmartLocationDatabase.gdb/a00000005.gdbindexes
+Data/Transport/SmartLocationDatabase.gdb/a00000005.CatItemTypesByUUID.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000005.CatItemTypesByParentTypeID.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000005.CatItemTypesByName.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000004.spx
+Data/Transport/SmartLocationDatabase.gdb/a00000004.horizon
+Data/Transport/SmartLocationDatabase.gdb/a00000004.gdbtablx
+Data/Transport/Experian Registrations/US_Fleet_County_2021Q4.parquet
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_State_2021Q4.zip
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_State_2021Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_STATE_2020Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_STATE_2018Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_STATE_2016Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_STATE_2014Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_STATE_2012Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_National_2021Q4.zip
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_National_2021Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_NATIONAL_2020Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_NATIONAL_2018Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_NATIONAL_2016Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_NATIONAL_2014Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_NATIONAL_2012Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_NC-WY_2020Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_NC-WY_2018Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_NC-WY_2016Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_NC-WY_2014Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_NC-WY_2012Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_IN-NY_2020Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_IN-NY_2018Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_IN-NY_2016Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_IN-NY_2014Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_IN-NY_2012Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_AL-IL_2020Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_AL-IL_2018Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_AL-IL_2016Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_AL-IL_2014Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_COUNTY_AL-IL_2012Q4.csv
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_County_2021Q4.zip
+Data/Transport/Experian Registrations/US_EVD_Fleet_LD_County_2021Q4.csv
+Data/Transport/Experian Registrations/Untitled.ipynb
+Data/Transport/Experian Registrations/U of NE Historical VIO Layouts.zipx
+Data/Transport/Experian Registrations/sum_registrations.parquet
+Data/Transport/Experian Registrations/sum_registrations - Copy.parquet
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_State_2021Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_STATE_2020Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_STATE_2018Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_STATE_2016Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_STATE_2014Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_STATE_2012Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_National_2021Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_NATIONAL_2020Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_NATIONAL_2018Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_NATIONAL_2016Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_NATIONAL_2014Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_NATIONAL_2012Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_NC-WY_2020Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_NC-WY_2018Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_NC-WY_2016Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_NC-WY_2014Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_NC-WY_2012Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_IN-NY_2020Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_IN-NY_2018Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_IN-NY_2016Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_IN-NY_2014Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_IN-NY_2012Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_AL-IL_2020Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_AL-IL_2018Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_AL-IL_2016Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_AL-IL_2014Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_COUNTY_AL-IL_2012Q4.csv_layout.xls
+Data/Transport/Experian Registrations/data layouts/US_EVD_Fleet_LD_County_2021Q4.csv_layout.xls
+Data/Transport/Experian Registrations/Combined files for years/Revised county file.parquet
+Data/Transport/Experian Registrations/Combined files for years/COUNTY_2020.parquet
+Data/Transport/Experian Registrations/Combined files for years/COUNTY_2018.parquet
+Data/Transport/Experian Registrations/Combined files for years/COUNTY_2016.parquet
+Data/Transport/Experian Registrations/Combined files for years/COUNTY_2014.parquet
+Data/Transport/Experian Registrations/Combined files for years/COUNTY_2012.parquet
+Data/Transport/Experian Registrations/Combined files for years.zip
+Data References/Stat  - Demographic Fields.pdf
+Data References/Standard Vehicle Atttributes  - Info Sheet - II.pdf
+Data References/Standard Reporting Atttributes  - Info Sheet.pdf
+Data References/IHS Markit automotive planning solutions - April 2020.pdf
+Data References/Experian Contract - CONFIDENTIAL/U of Neb Lincoln STAC_3.16.22_ADS - Copy.docx
+Data References/Experian Contract - CONFIDENTIAL/U of Neb Lincoln SOW 2022_3.16.22_ADS_CLIENT READY VERSION (4).docx
+Data References/Experian Contract - CONFIDENTIAL/U of Neb Lincoln SOW 2022_3.16.22_ADS.docx
+Data References/Experian Contract - CONFIDENTIAL/U of Neb Lincoln Automotive Schedule_3.16.22_ADS - Copy.docx
+Data References/Experian Contract - CONFIDENTIAL/Experian_Information_Solutions_Inc._-_UNL_-_C.pdf
+Data References/Experian Contract - CONFIDENTIAL/Experian Nebraska VIO Quote 3.14.2022.docx
+Combined Files.zip
+AL_IL_COUNTY_2012.parquet
+AL-IL_COUNTY_2012.parquet
+.ipynb_checkpoints/Revised file combination-checkpoint.ipynb
+.ipynb_checkpoints/PivotTable-checkpoint.ipynb
+.ipynb_checkpoints/Createyears-checkpoint.ipynb
+.ipynb_checkpoints/caseyNotebook-checkpoint.ipynb
+.ipynb_checkpoints/Alt_Fuel_Station_Analysis-checkpoint.ipynb
+Data/Transport/NHTS/hhpub.csv
+Data/Transport/NHTS/NHTS2017_UsersGuide_04232019_1.pdf
+Data/Transport/NHTS/perpub.csv
+Data/Transport/NHTS/vehpub.csv
+Data/Transport/SmartLocationDatabase.gdb/a00000001.gdbindexes
+Data/Transport/SmartLocationDatabase.gdb/a00000001.gdbtable
+Data/Transport/SmartLocationDatabase.gdb/a00000001.gdbtablx
+Data/Transport/SmartLocationDatabase.gdb/a00000001.TablesByName.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000002.gdbtable
+Data/Transport/SmartLocationDatabase.gdb/a00000002.gdbtablx
+Data/Transport/SmartLocationDatabase.gdb/a00000003.gdbindexes
+Data/Transport/SmartLocationDatabase.gdb/a00000003.gdbtable
+Data/Transport/SmartLocationDatabase.gdb/a00000003.gdbtablx
+Data/Transport/SmartLocationDatabase.gdb/a00000004.CatItemsByPhysicalName.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000004.CatItemsByType.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000004.FDO_UUID.atx
+Data/Transport/SmartLocationDatabase.gdb/a00000004.gdbindexes
+Data/Transport/SmartLocationDatabase.gdb/a00000004.gdbtable
+Publications/.ipynb_checkpoints/TRB_2023 (1)-checkpoint.ipynb
+Publications/.ipynb_checkpoints/TRB_2023 (2)-checkpoint.ipynb
+Publications/.ipynb_checkpoints/TRB_2023-checkpoint.ipynb
+Publications/.ipynb_checkpoints/TRB_2023-checkpoint.pdf
+Publications/.ipynb_checkpoints/TRB_2023-checkpoint.qmd
+Publications/.ipynb_checkpoints/TRB_2023-checkpoint.tex
+Publications/.Rhistory
+Sum of registrations.parquet
+sum_registrations.parquet
+EVHUB/Data/shapefiles/florida/tl_2016_12_cousub.shx
+EVHUB/Data/shapefiles/florida/tl_2016_12_cousub.shp.xml
+EVHUB/Data/shapefiles/florida/tl_2016_12_cousub.shp.iso.xml
+EVHUB/Data/shapefiles/florida/tl_2016_12_cousub.shp.ea.iso.xml
+EVHUB/Data/shapefiles/florida/tl_2016_12_cousub.shp
+EVHUB/Data/shapefiles/florida/tl_2016_12_cousub.prj
+EVHUB/Data/shapefiles/florida/tl_2016_12_cousub.dbf
+EVHUB/Data/shapefiles/florida/tl_2016_12_cousub.cpg
+EVHUB/Data/registrations/wi_ev_registrations_public.csv
+EVHUB/Data/registrations/wa_ev_registrations_public.csv
+EVHUB/Data/registrations/vt_ev_registrations_public.csv
+EVHUB/Data/registrations/va_ev_registrations_public.csv
+EVHUB/Data/registrations/tx_ev_registrations_public.csv
+EVHUB/Data/registrations/tn_ev_registrations_public.csv
+EVHUB/Data/registrations/or_ev_registrations_public.csv
+EVHUB/Data/registrations/ny_ev_registrations_public.csv
+EVHUB/Data/registrations/nj_ev_registrations_public.csv
+EVHUB/Data/registrations/mt_ev_registrations_public.csv
+EVHUB/Data/registrations/mn_ev_registrations_public.csv
+EVHUB/Data/registrations/mi_ev_registrations_public.csv
+EVHUB/Data/registrations/fl_ev_registrations_public.csv
+EVHUB/Data/registrations/ct_ev_registrations_public.csv
+EVHUB/Data/registrations/co_ev_registrations_public.csv
+EVHUB/Data/registrations/ca_ev_registrations_public.csv
+EVHUB/conda_env.yaml
+Data/Transport/Total light vehicle sales from 1976 to 2021.xlsx
+Data/Transport/State_Vehicle_Registrations.xlsx
+Data/Transport/State Registrations/WI_Registrations_2018_2021.csv
+Data/Transport/State Registrations/OR_Registrations_2002_2021.xlsx
+Data/Transport/State Registrations/NY_Registrations_1976_2022.csv
+Data/Transport/State Registrations/MN_Registrations_2018_2021.csv
+Data/Transport/State Registrations/MI_Reigistrations_2013_2020.csv
+Data/Transport/State Registrations/ME_Registrations_2015_2020.xlsx
+Data/Transport/State Registrations/MD_Registrations_2020_2022.csv
+Data/Transport/State Registrations/MA_Rebates_2014_2022.xlsx
+Data/Transport/State Registrations/FL_Registrations_2018_2021.csv
+Data/Transport/State Registrations/CT_Registrations_2011_2018.csv
+Data/Transport/State Registrations/CO_Registrations_2010_2021.csv
+Data/Transport/State Registrations/CA_Sales_ALT.xlsx
+Data/Transport/State Registrations/CA_Registrations_ALT.xlsx
+Data/Transport/State Registrations/CA_Registrations_2010_2021.csv
+Data/Transport/NHTS/csv (1).zip
+Data/Transport/NHTS/codebook_v1.2.pdf
+Data/Transport/NHTS/Citation.docx
+Data/eGrid/egrid2020_data.xlsx
+Data/eGrid/egrid2019_data.xlsx
+Data/eGrid/egrid2018_historical_files_since_1996.zip
+Data/eGrid/egrid2018_data_v2.xlsx
+Data/eGrid/eGridD_data_CO2.xlsx
+Data/GIS/PowerPlants_US_EIA.zip
+Data/GIS/PowerPlants_US_202004.shx
+Data/GIS/PowerPlants_US_202004.shp.xml
+Data/GIS/PowerPlants_US_202004.shp
+Data/GIS/PowerPlants_US_202004.sbx
+Data/GIS/PowerPlants_US_202004.sbn
+Data/GIS/PowerPlants_US_202004.prj
+Data/GIS/PowerPlants_US_202004.dbf
+Data/GIS/PowerPlants_US_202004.cpg
+Data/GIS/nhgis0007_shape/US_blck_grp_2020.shx
+Data/GIS/nhgis0007_shape/US_blck_grp_2020.shp.xml
+Data/GIS/nhgis0007_shape/US_blck_grp_2020.shp
+Data/GIS/nhgis0007_shape/US_blck_grp_2020.sbx
+Data/GIS/nhgis0007_shape/US_blck_grp_2020.sbn
+Data/GIS/nhgis0007_shape/US_blck_grp_2020.prj
+Data/GIS/nhgis0007_shape/US_blck_grp_2020.GISJOIN.atx
+Data/GIS/nhgis0007_shape/US_blck_grp_2020.dbf
+Data/GIS/nhgis0007_shape/US_blck_grp_2020.cpg
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids.shx
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids.shp
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids.qmd
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids.prj
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids.dbf
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids.cpg
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids-v2.shx
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids-v2.shp
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids-v2.qmd
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids-v2.prj
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids-v2.dbf
+Data/GIS/nhgis0007_shape/US_blck_grp_2020-centroids-v2.cpg
+Data/GIS/nhgis0007_shape/nhgis0007_shapefile_tl2020_us_blck_grp_2020.zip
+Data/GIS/nhgis0007_shape.zip
+Data/GIS/nhgis0007_csv/nhgis0007_ds249_20205_blck_grp_codebook.txt
+Data/GIS/nhgis0007_csv/nhgis0007_ds249_20205_blck_grp.csv
+Data/GIS/nhgis0007_csv.zip
+Data/GIS/Chicken and Egg Project/US_EVD_Fleet_LD_County_2021Q4.csv
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.xml
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.shx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.shp.LCECE-3581PF3.16888.15816.sr.lock
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.shp.LCECE-3581PF3.16732.15816.sr.lock
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.shp.LCECE-3581PF3.11872.15816.sr.lock
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.shp.LCECE-3581PF3.10956.15816.sr.lock
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.shp.ed.lock
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.shp
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.sbx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.sbn
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.prj
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.dbf
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/USA_Major_Cities.cpg
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.tbx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/timestamps
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/gdb
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000009.spx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000009.horizon
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000009.gdbtablx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000009.gdbtable
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000009.gdbindexes
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000007.gdbtablx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000007.gdbtable
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000007.gdbindexes
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000007.CatRelTypesByUUID.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000007.CatRelTypesByOriginItemTypeID.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000007.CatRelTypesByName.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000007.CatRelTypesByForwardLabel.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000007.CatRelTypesByDestItemTypeID.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000007.CatRelTypesByBackwardLabel.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000006.gdbtablx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000006.gdbtable
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000006.gdbindexes
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000006.FDO_UUID.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000006.CatRelsByType.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000006.CatRelsByOriginID.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000006.CatRelsByDestinationID.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000005.gdbtablx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000005.gdbtable
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000005.gdbindexes
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000005.CatItemTypesByUUID.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000005.CatItemTypesByParentTypeID.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000005.CatItemTypesByName.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000004.spx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000004.horizon
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000004.gdbtablx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000004.gdbtable
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000004.gdbindexes
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000004.FDO_UUID.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000004.CatItemsByType.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000004.CatItemsByPhysicalName.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000003.gdbtablx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000003.gdbtable
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000003.gdbindexes
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000002.gdbtablx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000002.gdbtable
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000001.TablesByName.atx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000001.gdbtablx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000001.gdbtable
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.gdb/a00000001.gdbindexes
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Per Capita EV Registrations by county.aprx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Index/Per Capita EV Registrations by county/segments_4
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Index/Per Capita EV Registrations by county/segments.gen
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Index/Per Capita EV Registrations by county/_2.cfs
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Index/Per Capita EV Registrations by county/_1.cfs
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/Index/Per Capita EV Registrations by county/_0.cfs
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/ImportLog/d1674d8fc88a40ada82749275a99fe03_Import.xml
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.shx
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.shp.LCECE-3581PF3.16888.15816.sr.lock
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.shp.LCECE-3581PF3.16732.15816.sr.lock
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.shp.LCECE-3581PF3.11872.15816.sr.lock
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.shp.LCECE-3581PF3.10956.15816.sr.lock
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.shp.iso.xml
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.shp.ea.iso.xml
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.shp
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.prj
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.dbf
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/cb_2018_us_county_5m/cb_2018_us_county_5m.cpg
+Data/GIS/Chicken and Egg Project/Per Capita EV Registrations by county/.backups/Per Capita EV Registrations by county.aprx
+Data/GIS/Chicken and Egg Project/evbycounty.parquet
+Data/GIS/Chicken and Egg Project/CountyData.ipynb
+Data/GIS/Chicken and Egg Project/bycounty4.csv
+Data/GIS/Chicken and Egg Project/.ipynb_checkpoints/CountyData-checkpoint.ipynb
+Data/GIS/Chicken and Egg Project.zip
+Data/GIS/cb_2020_us_tract_500k/cb_2020_us_tract_500k.shx
+Data/GIS/cb_2020_us_tract_500k/cb_2020_us_tract_500k.shp.iso.xml
+Data/GIS/cb_2020_us_tract_500k/cb_2020_us_tract_500k.shp.ea.iso.xml
+Data/GIS/cb_2020_us_tract_500k/cb_2020_us_tract_500k.shp
+Data/GIS/cb_2020_us_tract_500k/cb_2020_us_tract_500k.prj
+Data/GIS/cb_2020_us_tract_500k/cb_2020_us_tract_500k.dbf
+Data/GIS/cb_2020_us_tract_500k/cb_2020_us_tract_500k.cpg
+Data/GIS/cb_2020_us_state_5m/cb_2020_us_state_5m.shx
+Data/GIS/cb_2020_us_state_5m/cb_2020_us_state_5m.shp.iso.xml
+Data/GIS/cb_2020_us_state_5m/cb_2020_us_state_5m.shp.ea.iso.xml
+Data/GIS/cb_2020_us_state_5m/cb_2020_us_state_5m.shp
+Data/GIS/cb_2020_us_state_5m/cb_2020_us_state_5m.prj
+Data/GIS/cb_2020_us_state_5m/cb_2020_us_state_5m.dbf
+Data/GIS/cb_2020_us_state_5m/cb_2020_us_state_5m.cpg
+Data/GIS/cb_2018_us_state_5m/cb_2018_us_state_5m.shx
+Data/GIS/cb_2018_us_state_5m/cb_2018_us_state_5m.shp.iso.xml
+Data/GIS/cb_2018_us_state_5m/cb_2018_us_state_5m.shp.ea.iso.xml
+Data/GIS/cb_2018_us_state_5m/cb_2018_us_state_5m.shp
+Data/GIS/cb_2018_us_state_5m/cb_2018_us_state_5m.prj
+Data/GIS/cb_2018_us_state_5m/cb_2018_us_state_5m.dbf
+Data/GIS/cb_2018_us_state_5m/cb_2018_us_state_5m.cpg
+Data/GIS/cb_2018_us_state_500k/cb_2018_us_state_500k.shx
+Data/GIS/cb_2018_us_state_500k/cb_2018_us_state_500k.shp.iso.xml
+Data/GIS/cb_2018_us_state_500k/cb_2018_us_state_500k.shp.ea.iso.xml
+Data/GIS/cb_2018_us_state_500k/cb_2018_us_state_500k.shp
+Data/GIS/cb_2018_us_state_500k/cb_2018_us_state_500k.prj
+Data/GIS/cb_2018_us_state_500k/cb_2018_us_state_500k.dbf
+Data/GIS/cb_2018_us_state_500k/cb_2018_us_state_500k.cpg
+Data/GIS/cb_2018_us_county_5m/cb_2018_us_county_5m.shx
+Data/GIS/cb_2018_us_county_5m/cb_2018_us_county_5m.shp.iso.xml
+Data/GIS/cb_2018_us_county_5m/cb_2018_us_county_5m.shp.ea.iso.xml
+Data/GIS/cb_2018_us_county_5m/cb_2018_us_county_5m.shp
+Data/GIS/cb_2018_us_county_5m/cb_2018_us_county_5m.qix
+Data/GIS/cb_2018_us_county_5m/cb_2018_us_county_5m.prj
+Data/GIS/cb_2018_us_county_5m/cb_2018_us_county_5m.dbf
+Data/GIS/cb_2018_us_county_5m/cb_2018_us_county_5m.cpg

@@ -1,0 +1,216 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0001_ds244_20195_county_M'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Citation and Use
+ 
+Additional documentation on NHGIS data sources is available at: 
+    https://www.nhgis.org/documentation/tabular-data 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Year:             2015-2019
+Geographic level: County (by State)
+Dataset:          2019 American Community Survey: 5-Year Data [2015-2019, Block Groups & Larger Areas]
+   NHGIS code:    2015_2019_ACS5a
+   NHGIS ID:      ds244
+Breakdown(s):     Geographic Subarea:
+                     Total area (00)
+Data type(s):     (M) Margins of error
+ 
+Tables:
+ 
+1. Sex by Age
+   Universe:    Total population
+   Source code: B01001
+   NHGIS code:  ALT0
+ 
+2. Total Population
+   Universe:    Total population
+   Source code: B01003
+   NHGIS code:  ALUB
+ 
+3. Race
+   Universe:    Total population
+   Source code: B02001
+   NHGIS code:  ALUC
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        YEAR:        Data File Year
+        STUSAB:      State Postal Abbreviation
+        REGIONA:     Region Code
+        DIVISIONA:   Division Code
+        STATE:       State Name
+        STATEA:      State Code
+        COUNTY:      County Name
+        COUNTYA:     County Code
+        COUSUBA:     County Subdivision Code
+        PLACEA:      Place Code
+        TRACTA:      Census Tract Code
+        BLKGRPA:     Block Group Code
+        CONCITA:     Consolidated City Code
+        AIANHHA:     American Indian Area/Alaska Native Area/Hawaiian Home Land Code
+        RES_ONLYA:   American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only) Code
+        TRUSTA:      American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land Code
+        AIHHTLI:     American Indian Trust Land/ Hawaiian Home Land Indicator
+        AITS:        American Indian Tribal Subdivision (FIPS)
+        ANRCA:       Alaska Native Regional Corporation Code
+        CBSAA:       Metropolitan Statistical Area/Micropolitan Statistical Area Code
+        CSAA:        Combined Statistical Area Code
+        METDIVA:     Metropolitan Division Code
+        MEMI:        Metropolitan/Micropolitan Indicator Flag
+        NECTAA:      New England City and Town Area Code
+        CNECTAA:     Combined New England City and Town Area Code
+        NECTADIVA:   New England City and Town Area Division Code
+        UAA:         Urban Area Code
+        CDCURRA:     Congressional District (2019-2021, 116th Congress) Code
+        SLDUA:       State Legislative District (Upper Chamber) Code
+        SLDLA:       State Legislative District (Lower Chamber) Code
+        ZCTA5A:      5-Digit ZIP Code Tabulation Area Code
+        SUBMCDA:     Subminor Civil Division Code
+        SDELMA:      School District (Elementary)/Remainder Code
+        SDSECA:      School District (Secondary)/Remainder Code
+        SDUNIA:      School District (Unified)/Remainder Code
+        UR:          Urban/Rural
+        PCI:         Principal City Indicator
+        PUMA5A:      Public Use Microdata Sample Area (PUMA) Code
+        GEOID:       Census Geographic Identifier
+        NAME:        Area Name
+        BTTRA:       Tribal Census Tract Code
+        BTBGA:       Tribal Block Group Code
+ 
+Data Type (M):
+    Margins of error
+ 
+    Table 1:     Sex by Age
+    Universe:    Total population
+    Source code: B01001
+    NHGIS code:  ALT0
+        ALT0M001:    Total
+        ALT0M002:    Male
+        ALT0M003:    Male: Under 5 years
+        ALT0M004:    Male: 5 to 9 years
+        ALT0M005:    Male: 10 to 14 years
+        ALT0M006:    Male: 15 to 17 years
+        ALT0M007:    Male: 18 and 19 years
+        ALT0M008:    Male: 20 years
+        ALT0M009:    Male: 21 years
+        ALT0M010:    Male: 22 to 24 years
+        ALT0M011:    Male: 25 to 29 years
+        ALT0M012:    Male: 30 to 34 years
+        ALT0M013:    Male: 35 to 39 years
+        ALT0M014:    Male: 40 to 44 years
+        ALT0M015:    Male: 45 to 49 years
+        ALT0M016:    Male: 50 to 54 years
+        ALT0M017:    Male: 55 to 59 years
+        ALT0M018:    Male: 60 and 61 years
+        ALT0M019:    Male: 62 to 64 years
+        ALT0M020:    Male: 65 and 66 years
+        ALT0M021:    Male: 67 to 69 years
+        ALT0M022:    Male: 70 to 74 years
+        ALT0M023:    Male: 75 to 79 years
+        ALT0M024:    Male: 80 to 84 years
+        ALT0M025:    Male: 85 years and over
+        ALT0M026:    Female
+        ALT0M027:    Female: Under 5 years
+        ALT0M028:    Female: 5 to 9 years
+        ALT0M029:    Female: 10 to 14 years
+        ALT0M030:    Female: 15 to 17 years
+        ALT0M031:    Female: 18 and 19 years
+        ALT0M032:    Female: 20 years
+        ALT0M033:    Female: 21 years
+        ALT0M034:    Female: 22 to 24 years
+        ALT0M035:    Female: 25 to 29 years
+        ALT0M036:    Female: 30 to 34 years
+        ALT0M037:    Female: 35 to 39 years
+        ALT0M038:    Female: 40 to 44 years
+        ALT0M039:    Female: 45 to 49 years
+        ALT0M040:    Female: 50 to 54 years
+        ALT0M041:    Female: 55 to 59 years
+        ALT0M042:    Female: 60 and 61 years
+        ALT0M043:    Female: 62 to 64 years
+        ALT0M044:    Female: 65 and 66 years
+        ALT0M045:    Female: 67 to 69 years
+        ALT0M046:    Female: 70 to 74 years
+        ALT0M047:    Female: 75 to 79 years
+        ALT0M048:    Female: 80 to 84 years
+        ALT0M049:    Female: 85 years and over
+ 
+    Table 2:     Total Population
+    Universe:    Total population
+    Source code: B01003
+    NHGIS code:  ALUB
+        ALUBM001:    Total
+ 
+    Table 3:     Race
+    Universe:    Total population
+    Source code: B02001
+    NHGIS code:  ALUC
+        ALUCM001:    Total
+        ALUCM002:    White alone
+        ALUCM003:    Black or African American alone
+        ALUCM004:    American Indian and Alaska Native alone
+        ALUCM005:    Asian alone
+        ALUCM006:    Native Hawaiian and Other Pacific Islander alone
+        ALUCM007:    Some other race alone
+        ALUCM008:    Two or more races
+        ALUCM009:    Two or more races: Two races including Some other race
+        ALUCM010:    Two or more races: Two races excluding Some other race, and three or more races
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Steven Manson, Jonathan Schroeder, David Van Riper, Tracy Kugler, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 16.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2021. 
+        http://doi.org/10.18128/D050.V16.0
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455
