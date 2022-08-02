@@ -1,26 +1,40 @@
 ---
 title: On the Chicken & Egg Problem in Transportation Electrification
-author: Jason Hawkins
+author:
+  - name: Jason Hawkins Ph.D.
+    affiliations:
+      - id: unl
+        name: University of Nebraska Lincoln
+        city: Lincoln
+        state: NE
+  - name: Nicholas Aldridge
+    affiliations:
+      - ref: unl
 format: pdf
 editor: visual
 echo: false
 number-sections: true
 keep-tex: true
+keep-ipynb: true
 bibliography: references.bib
 jupyter: python3
+abstract: |
+  The relationship between electric vehicle adoption and charging station deployment is often discussed in the transportation field but seldom examined formally. In this paper, we make use of publicly available charging station installation data and purchased vehicle registration data by county to examine this important question. We apply causal inference methods to ascertain the phasing and causal relationship between these two markets. Non-linear Granger causality tests suggest a feedback relationship between vehicle adoption and charging station installations, with neither market exhibiting a definitive temporal lead. While we find that charging station investments are necessary for vehicle adoption, they are insufficient to encourage the necessary market penetration absent complementary policy. Non-parametric dose-response modeling finds that electric vehicle adoption declines with charging station penetration beyond 140 stations per 100,000 persons when controlling for confounding effects. We provide further insights regarding equity in current charging station locations and mediating relationships with other policy and social variables.
 ---
 
 # INTRODUCTION
 
-Vehicle electrification is widely regarded as a critical tool for climate change mitigation in the transportation sector [@musti2011]. While the United States is seeing an increasing share of electric sales, the pace of adoption remains well below the necessary level to mitigate climate change impacts. One barrier to widespread adoption is the lack of charging infrastructure [@sullivan2021].
+Countries around the world are starting to take action to fight the harmful effects of anthropogenic climate change. A focus for climate scientists and policy makers alike is to reduce the amount of CO2 that is emitted into the atmosphere. One of the largest contributors to CO2 emissions is the transportation system, which in the United States is responsible for 29 percent of total CO2 emissions [@epa2021]. Emissions are driven by the reliance on fossil fuel products as the primary transportation fuel source. High greenhouse gas (GHG) emissions are exacerbated by driving patterns in the United States, which tend to mean longer travel distances than other countries [@itf2021]. The high attribution of transportation sector GHG emissions to fossil fuels means that vehicle electrification is widely regarded as a critical tool for climate change mitigation [@musti2011]. Scenario analyses find that aggressive targets are required to increase vehicle electrification in the United States, with some plans coming close to 95% of vehicles being electric by 2050 [@larson2021]. Less aggressive plans assume a 60% 2050 electric vehicle market share. Despite these findings, the pace of plug-in electric vehicles (PEVs) adoption - defined as the combination of battery-electric and plug-in electric hybrid vehicles - remains well below the necessary level to mitigate climate change impacts.
 
-A common policy put forward to increase electric vehicle adoption is a federal income tax credit for EV buyers. However, spending similar amounts on increasing deployment of charging stations could yield more effective results [@Li2017]. This is especially the case in the early stages of EV market penetration; EV markets that have critical-mass constraints have the most success in increasing market penetration with a subsidy policy that deals with indirect network effects [@Zhou2018]. One of the indirect network effects on the EV market comes from the charging station market.
+Adoption is driven by a number of factors related to vehicle properties, such as price, driving range and charging time, and by factors outside of vehicles properties, such as consumer characteristics, fuel prices, and government policy. Purchase price is one of the main factors that influences consumers to purchase electric vehicles. When surveyed about reason why they would choose to not purchase an EV, potential buyers cited the price as the biggest deterrent [@hidrue2011]. Other research has found that drastically increasing vehicle battery size while not changing the price did very little to persuade buyers to purchase PEVs [@adepetu2017]. The least influential factor related directly to the vehicle properties is the charging time. One analysis found that when charging time was reduced from 10 hours to 10 minutes, while changing no other factors, consumers were still more likely to pick gas-powered cars [@hidrue2011].
 
-Subsidies for charging stations are found to be most effective because of the low-price sensitivity of early EV adopters [@Li2017]. This is intuitive because early EV adopters are more eager to purchases EVs, which makes them more willing to pay for higher prices. The issue these consumers are concerned with is their ability to utilize this new technology, which is affected by the existing charging station infrastructure. Because of this, understanding consumer's preferences for charging station infrastructure is crucial. Consumers are willing to pay about 5 cents per mile for plug-in electric vehicles and about 10 cents per minute of wait time while refueling. Consumers are also willing to wait up to 8 minutes longer during refueling [@Sheldon2019]. Knowing this information can allow policy makers to create subsidy programs that produce more effective outcomes.
+There are many factors not directly related to electric vehicles that are influential in increasing EV adoption. The strongest of these factors is the price of fuel. One study finds that a 10 percent increase in fuel prices could increase in the market share of hybrid vehicles by as much as 90 percent [@diamond2009]. In addition to fuel prices, the characteristics of consumers influences how electric vehicles are adopted. Characteristics like age and education are among the most significant predictors of how likely a person is to purchase an PEV [@hidrue2011]. Another non-vehicle factor is government policy. Most government policy is targeted at reducing the price of PEVs, but it can encompass many other strategies like creating a more robust charging infrastructure (often termed electric vehicle supply equipment, or EVSE), which is the focus of this paper.
 
-Nick TO DO: - Expand discussion to focus on the need for EVs in climate policy in general (can draw from Net Zero America and Zero Carbon America studies and others) - Focus on what drives EV adoption according to literature - Talk about the infrastructure bill and its investment in charging stations
+The lack of EVSE is a significant barrier to widespread PEV adoption [@sullivan2021]. A common policy put forward to increase electric vehicle adoption is a federal income tax credit for EV buyers. However, spending similar amounts on increasing deployment of charging stations could yield more effective results [@li2017]. Governments are starting to use this knowledge when drafting spending policy; recently, the US federal government passed an infrastructure bill that allocates roughly \$5 billion to creating a network of charging stations [@thewhitehouse2021-a]. The network of charging stations setup by this spending will be placed along designated roads, particularly the US Interstate System. We begin by defining the relationship between PEV adoption and EVSE as an indirect network effect problem. We then outline two frameworks for causal inference, which provide complementary perspectives on the problem. These methods are applied to the United States using data for the period 2012 to 2020. We provide analysis results, policy conclusions, and outline future work on this topic.
 
 ```{python}
+import warnings
+warnings.filterwarnings("ignore")
 # import data packages
 import geopandas as gpd
 import pandas as pd
@@ -33,6 +47,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
+import matplotlib.ticker as mtick
 import mapclassify as mc
 import geoplot.crs as gcrs
 import geoplot as gplt
@@ -52,9 +67,6 @@ import random
 import itertools
 pd.set_option('display.max_columns', None)
 sns.set_theme(style="white")
-import warnings
-warnings.filterwarnings(action='once')
-warnings.simplefilter(action='once', category=FutureWarning)
 
 # setting publish to true skips time consuming data generation tasks and assumes data are being loaded from a previous run
 publish = True
@@ -62,44 +74,50 @@ publish = True
 
 # THE ELECTRIC VEHICLE AND CHARGING STATION PROBLEM
 
-Nick TO DO: - More of a technical focus on what's been done in the academic literature on the specific problem
+Electric vehicle ownership is often referenced as exhibiting a "chicken and egg" behavior arising from the supply and demand relationship. Individual demand for electric vehicles is influenced by the available charging stations supply. Consumers are unwilling to purchase vehicles due to range anxiety and a perceived lack of charging stations. Suppliers are not incentivized to provide charging stations unless there is sufficient demand to warrant their cost. In more formal language, the problem represents a indirect network effect. Similar dynamics exist in other markets - e.g., consumers choose online streaming video services based on their offerings, but service providers require capital from subscriptions in order to generate content. There is a clear role for public policy in such situations when a public good results from intervention in the market. Many governments may deem PEVs as a solution to a public ill (i.e., climate change) and can incentivize either suppliers by providing installation subsidies or consumers by installing charging stations. While the problem has been recognized in the literature [@melliger2018], empirical analysis is minimal.
 
-Electric vehicle ownership is often referenced as exhibiting a "chicken and egg" behavior arising from the supply and demand relationship. Individual demand for electric vehicles is influenced by the available supply of charging points. Consumers are unwilling to purchase vehicles due to range anxiety and a perceived lack of charging stations. Suppliers are not incentivized to provide charging stations unless there is sufficient demand to warrant their cost. There is a clear role for public policy in such situations. The government deems electric vehicles as a solution to a public ill (i.e., climate change) and can incentivize either suppliers by providing installation subsidies or consumers by installing charging stations. While the problem has been recognized in the literature [@melliger2018], empirical analysis is minimal.
+Zhou and Li [@zhou2018] find that government spending on EVSE deployment is most effective in the early stages of PEV market penetration. These early markets may have critical-mass constraints, which can be overcome by a government subsidy that deals with the network effect. Subsidies for charging stations are found to be more effective than those for PEV purchases because early PEV adopters have a low-price sensitivity[@li2017]. Early adopters are eager to purchases PEVs, which makes them more willing to pay higher prices. The main consumer concern at this stage is the ability to recharge their vehicle - that is, the existing EVSE environment. Because of this, understanding consumer's preferences for charging station infrastructure is crucial. Sheldon et al. [@sheldon2019] find that consumers are willing to pay about 5 cents per mile for plug-in electric vehicles and about 10 cents per minute of wait time while refueling. Consumers are also willing to wait up to 8 minutes longer during refueling relative to the time for conventional fossil fuel vehicles. Knowing this information can allow policy makers to create subsidy programs that produce more effective outcomes.
 
-An important consideration to the analysis is how electric mobility system may differ from one based on fossil fuels. In the conventional private mobility model, the individual owns the vehicle and purchases fuel from centralized and privately owned refueling stations. In contrast, electric vehicles may be charged in the home using previously existing infrastructure. The presence of charging points in the home begs the questions 1) if (or to what extent) out-of-home charging stations are required for travel? and 2) to what extent is range anxiety a perception versus a reality?
+An important feature when considering an electrified mobility system is how its refueling infrastructure differs from the conventional fossil fuel-based system. In the conventional private mobility system, the individual owns the vehicle and purchases fuel from centralized and privately owned refueling stations. These vehicles typically have a greater driving range associated with them. While the increased range increases a vehicle's mobility, refueling at a place of residence is not viable. Electric vehicles do not have as great of a driving range as gas-powered vehicles. However, electric vehicles may be charged in the home using previously existing electrical infrastructure. The presence of charging points in the home begs the questions 1) if (or to what extent) out-of-home charging stations are required for travel, and 2) to what extent is range anxiety a perception versus a reality.
 
 According to the Bureau of Transportation Statistics, 98% of trips made in the US are less than 50 miles [@vehicletechnologyoffice2022]. Given that most battery-electric vehicles (BEVs) have a range greater than 200 miles [@elfalan2021], it is feasible to make most trips on a single charge. However, long-distance trips (over 50 miles) comprise 30% of total vehicle-miles traveled (VMT) [@aultman-hall2018]. There is clearly a need for out-of-home charging stations to accommodate these trips. Even if most trips can be accommodated by in-home charging, the vehicle purchase decision will be influenced by consideration of these longer trips that require charging stations [@silvia2016]. Additionally, Wolbertus et al. [@wolbertus2018] find that there is still a demand for charging stations in places where public daytime charging is the only option, such as at the workplace.
 
+We contribute to this literature by providing among the first and most extensive examinations of the co-evolving PEV and EVSE systems. Zhou and Li [@zhou2018] used data for 2011-2013 vehicle sales and EVSE for 353 US metropolitan aras, which we are able to expand to include a longer time horizon (2012-2020) and wider spatial extent (all counties in the United States). Further, we combine two causal inference approaches to capture both the phasing and causal relationship between these markets.
+
 # METHODS
 
-We define two classes of causality which we termed as phasing causality and potential outcomes causality. These alternative forms of causality are often denoted by their principle developers: Granger causality (REF) and Rubin causality (REF), respectively. Both approaches are employed due to the (functionally) continuous nature of the two variables of interest. We detail each approach and its application to the present problem below.
+We define two classes of causality which we termed as phasing causality and potential outcomes causality. These alternative forms of causality are often denoted by their principle developers: Granger causality [@granger1969] and Rubin causality [@rubin2005], respectively. Both approaches are employed due to the (functionally) continuous nature of the two variables of interest. We detail each approach and its application to the present problem below.
 
 ## Non-Linear Phasing Causality
 
-Define two variables $X_t$ and $Y_t$ where subscript $t$ denotes a time series process. Phasing causality seeks to identify whether the two time series exhibit a common pattern (or coherence). One variable may lead the other producing a time lag, but the series may also exhibit instantaneous *causality* whereby the current value of $Y_t$ is better predicted when the current value of $X_t$ is included in the model. In strict terms, phasing causality is defined by $$\sigma^2(Y|U)<\sigma(Y|\overline{U-X})$$#{eq:granger-causality}. There is also the potential for feedback, whereby $X_t$ causes $Y_t$ and $Y_t$ also causes $X_t$. In the EV and charging station situation, this might mean that charging station installations encourage households in a county to purchase EVs, which then encourages further investment in charging station infrastructure. There are two key principles underling phasing causality: 1) that the cause occurs before its effect and 2) that the cause has unique information about the future values of its effect. Granger defines a simple test statistic for such causality using time series data using the F-test.
+Define two variables $X_t$ and $Y_t$ where subscript $t$ denotes a time series process. Phasing causality seeks to identify whether the two time series exhibit a common pattern (or coherence). One variable may lead the other producing a time lag, but the series may also exhibit instantaneous *causality* whereby the current value of $Y_t$ is better predicted when the current value of $X_t$ is included in the model. In strict terms, phasing causality is defined by $$\sigma^2(Y|U)<\sigma(Y|\overline{U-X})$$ {#eq:granger-causality}. There is also the potential for feedback, whereby $X_t$ causes $Y_t$ and $Y_t$ also causes $X_t$. In the EV and charging station situation, this might mean that EVSE installations encourage households in a county to purchase PEVs, which then encourages further investment in EVSE infrastructure. There are two key principles underling phasing causality: 1) that the cause occurs before its effect and 2) that the cause has unique information about the future values of its effect. Granger defines a simple test statistic for such causality using time series data using the F-test.
 
-The original applications of Granger causality were to economic variables that fluctuated over time. The test assumes that both $X_t$ and $Y_t$ are stationary time series, an assumption that will be shown to be violated in the present case. Several extensions have been developed to phasing causality that allow for non-stationary time series. We use the approach of Rosol et al (REF) with modifications to fit our application as detailed in the following section. Their approach compares the model median absolute error using both time series ($Y_t$ and $X_t$)to that obtained using only the dependent time series ($Y_t$). The Wilcoxon signed-rank test is used to test for statistical significance - i.e., that $X_t$ causes $Y_t$. The method is implemented as a Python package and includes multilayer perceptron (MLP), long short-term memory (LSTM), gated recurrent unit (GRU), and autoregressive integrated moving average (ARIMA) models. Model errors are calculated at each observation and the sum of their absolute values used in the statistical test. The method has the ability to measure changes in causality over time, but our time series is too short for its application.
+The original applications of Granger causality were to economic variables that fluctuated over time. The test assumes that both $X_t$ and $Y_t$ are stationary time series, an assumption that will be shown to be violated in the present case. Several extensions have been developed to phasing causality that allow for non-stationary time series. We use the approach of Rosol et al. [@rosol2022] with modifications to fit our application as detailed in the following section. Their approach compares the model median absolute error using both time series ($Y_t$ and $X_t$)to that obtained using only the dependent time series ($Y_t$). The Wilcoxon signed-rank test is used to test for statistical significance - i.e., that $X_t$ causes $Y_t$. The method is implemented as a Python package and includes multilayer perceptron (MLP), long short-term memory (LSTM), gated recurrent unit (GRU), neural net (NN), and autoregressive integrated moving average (ARIMA) models. Model errors are calculated at each observation and the sum of their absolute values used in the statistical test. The method has the ability to measure changes in causality over time, but our time series is too short for its application.
 
 ## Potential Outcomes Causality Via Propensity Score Matching
 
 Potential outcomes causality begins from the definition that causal effects are a comparison between outcomes $Y$ in response to differences in a treatment $T$ on a common set of units. Unfortunately, such an analysis is not possible in reality since it would require the same unit (e.g., person) to simultaneously experience both the treated and untreated conditions. In observational studies, a common approach is to identify two sets of observational units that differ only in their exposure to a treatment variable of interest. A study interested in the effect of a new teaching strategy might compare two sets of schools that differ only in whether they adopted the strategy. A class of strategies to identify otherwise similar observational units (e.g., schools) is propensity score matching. Formally, the assumption is that $Y_t \perp T|X_t$, or that outcome $Y_t$ is independent of the treatment conditional upon a set of $X_t$ covariates. That is, treatment assignment is ignorable conditional on $X_t$. However, for the present problem the treatment (i.e., charging stations) is not binary. An observation unit may have any number of charging stations.
 
-An extension to the standard propensity score, termed as generalized propensity score (GPS) matching, was developed by Hirano and Imbens (REF). Assuming a continuous treatment, the GPS is defined by $$r(t,x)=f_{T|X}(t|x)$$#{eq-gps} where $t\in \tau$ is referred to as the unit-level dose-response function, $X$ and $T$ are random variables defined on a common probability space, and $r(t,x)$ is the GPS measure defining similarity between observational units. It can then be stated that $X\perp 1{T=t}|r(t,X)$, or that assignment to a treatment value $t$ is independent conditional on its GPS.
+An extension to the standard propensity score, termed as generalized propensity score (GPS) matching, was developed by Hirano and Imbens [@hirano2005]. Assuming a continuous treatment, the GPS is defined by $$r(t,x)=f_{T|X}(t|x)$$ {#eq-gps} where $t\in \tau$ is referred to as the unit-level dose-response function, $X$ and $T$ are random variables defined on a common probability space, and $r(t,x)$ is the GPS measure defining similarity between observational units. It can then be stated that $X\perp 1{T=t}|r(t,X)$, or that assignment to a treatment value $t$ is independent conditional on its GPS.
 
-The dose-response nomenclature is taken from pharmeutical research, where the interest is in the health response to a continuous drug dose. Each individual has a potential response at different doses, or treatment levels. The dose-response function that is an outcome of continuous GPS analysis is an average of the potential responses at each treatment level - an average dose-response function (ADRF). A challenge when transitioning from a binary to a continuous treatment is that a treated unit will not be available at every treatment level. The problem can be addressed by parameterizing the curve as a linear combination of a finite number of basis functions (REF Galagate). The averaging used to construct the ADRF is based on weighting observations by the GPS using units within each basis function range.
+The dose-response nomenclature is taken from pharmeutical research, where the interest is in the health response to a continuous drug dose. Each individual has a potential response at different doses, or treatment levels. The dose-response function that is an outcome of continuous GPS analysis is an average of the potential responses at each treatment level - an average dose-response function (ADRF). A challenge when transitioning from a binary to a continuous treatment is that a treated unit will not be available at every treatment level. The problem can be addressed by parameterizing the curve as a linear combination of a finite number of basis functions [@galagate2016]. The averaging used to construct the ADRF is based on weighting observations by the GPS using units within each basis function range.
 
-A secondary question is the potential relationship between charging stations and other variables of interest. These relationships can be illustrated via a directed acyclic graph (DAG) as shown in Figure @fig-dag where $X$ is a treatment variable, $Z$ a mediating variable, and $Y$ an outcome variable (REF Imai).
+## Casual Mediation
 
-```{mermaid}
-#\| label: fig-dag
-#\| fig-cap: "DAG"
-flowchart LR
-A[X] --> B[Y]
-A[X] --> C[Z]
-C[Z] --> B[Y]
+A secondary question is the potential relationship between charging stations and other variables of interest. These relationships can be illustrated via a directed acyclic graph (DAG) as shown in @fig-dag where $X$ is a treatment variable, $Z$ is a mediating variable, and $Y$ is an outcome variable [@imai2009].
+
+```{dot}
+//| label: fig-dag
+//| fig-cap: Directed Acyclic Graph (DAG) for Causal Mediation
+digraph {
+  rankdir=LR;
+  X -> Y;
+  X -> Z;
+  Z -> Y;
+}
 ```
 
-Conventional causal mediation modeling takes the form of a linear structural equation model (SEM). Extending the above notation, $M_t$ is a mediation variable. Following the potential outcomes framework, suppose we are interested in the mediating effect of charging station investments on grid decarbonization. In many cases, utility operators provide financial support for charging stations. Limited budgets mean that a private firm or government agency may need to balance investments in both infrastructures. Previously, the potential outcome depended only on the treatment variable but now depends on both the treatment and mediator variables as \$Y(t,m)\$. Also, assume there is no interference effect meaning that mediator values for one observation do not affect the treatment value for other observations, and vice versa. The causal mediation (indirect) effect for each observation is then given by $$\delta(t)=Y(t,M(1)-M(0)$$#{eq-med} where $M(1)$ and $M(0)$ are the potential mediator variable values with and without the treatment. The mediation effect is interpreted based on the difference between $M(1)$ and $M(0)$ holding the treatment fixed at \$t\$. If $M(1)=M(0)$ - i.e., the treatment has no effect on the mediator variable - then the causal meidation effect is zero.
+Conventional causal mediation modeling takes the form of a linear structural equation model (SEM). Extending the above notation, $M_t$ is a mediation variable. Following the potential outcomes framework, suppose we are interested in the mediating effect of EVSE investments on grid decarbonization. In many cases, utility operators provide financial support for EVSE. Limited budgets mean that a private firm or government agency may need to balance investments in both infrastructures. Previously, the potential outcome depended only on the treatment variable but now depends on both the treatment and mediator variables as \$Y(t,m)\$. Also, assume there is no interference effect meaning that mediator values for one observation do not affect the treatment value for other observations, and vice versa. The causal mediation (indirect) effect for each observation is then given by $$\delta(t)=Y(t,M(1)-M(0)$$ {#eq-med} where $M(1)$ and $M(0)$ are the potential mediator variable values with and without the treatment. The mediation effect is interpreted based on the difference between $M(1)$ and $M(0)$ holding the treatment fixed at \$t\$. If $M(1)=M(0)$ - i.e., the treatment has no effect on the mediator variable - then the causal mediation effect is zero. Again, we use a generalized additive model (GAM) to test a nonparametric average mediation effect.
 
 # DATA AND MODEL SPECIFICATION
 
@@ -289,6 +307,9 @@ else:
     df_elec = df_elec[df_elec.PARTY=="DEMOCRAT"]
     df_elec.drop(columns="PARTY",inplace=True)
     df_elec["percent_dem"] = df_elec.CAND_VOTES/df_elec.TOT_VOTES
+    
+    # add data for fuel prices
+    df_fuel = pd.read_csv("../Data/Transport/fuel_prices.csv")
 
     # join demographics to main dataframe for 2011 to 2015
     df11 = df.loc[df.YEAR<2015,:].merge(df_pop11, how="left", on="GEOID")
@@ -302,7 +323,7 @@ else:
     df = df.merge(df_elec, how="left",on="GEOID")
     df = df.merge(df_egrid, how="left", left_on=["STATEA","YEAR"], right_on=["FIPSST","YEAR"])
 
-    # calculate per capita statistics (per 100,000 inhabitants)
+    # calculate per capita statistics (per 100,000 persons)
     df["bev_cap"] = (df["bev"]/df["ALUBE001"])*100000
     df["pev_cap"] = (df["pev"]/df["ALUBE001"])*100000
     df["cEVSE-L01_cap"] = (df["cEVSE-L01"]/df["ALUBE001"])*100000
@@ -325,6 +346,9 @@ else:
     # additional data from GIS file for county
     US_sf["GEOID"] = US_sf["GEOID"].astype(int)
     gdf = US_sf.merge(df, how="right", on="GEOID")
+    # join the fuel price data to main dataframe
+    gdf = gdf.merge(df_fuel, on=["STATE","YEAR"])
+    gdf.YEAR = gdf.YEAR.astype(int)
 ```
 
 ```{python}
@@ -347,45 +371,46 @@ if not publish:
 
 ## Treatment and Outcome Variables
 
-The two key input datasets are charging station locations provided by the Alternative Fuel Data Center (AFDC) and electric vehicle registrations provided by Experian Inc. The vehicle registration dataset comprises a 10-year panel at 2-year intervals (2012, 2014, 2016, 2018, 2020). Total vehicle registrations are recorded by county, make, model, year, and other vehicle characteristics for the United States. The frequency and spatial resolution of the vehicle registration data define the analysis units. Our treatment and outcome variables are charging stations and EV registrations normalized by population (per 100,000 inhabitants).
+The two key input datasets are charging station locations provided by the Alternative Fuel Data Center (AFDC) and electric vehicle registrations provided by Experian Inc. The vehicle registration dataset comprises a 10-year panel at 2-year intervals (2012, 2014, 2016, 2018, 2020). Total vehicle registrations are recorded by county, make, model, year, and other vehicle characteristics for the United States. The frequency and spatial resolution of the vehicle registration data define the analysis units. Our treatment and outcome variables are charging stations and EV registrations normalized by population (per 100,000 persons).
 
 Charging stations are geocoded and aggregated into annual cumulative totals by county. Only public charging stations are maintained for analysis. Further, the we make no distinction between charger port capacity (level 1, 2, or 3) when aggregating the number of charging ports per county. Such a distinction could be made as a sensitivity test but may reduce the effective sample size as not all counties with charging stations have all three charger port types.
 
-After filtering out protectorates and other non-state locations, several county codes in the Experian data remain that are missing registration totals in a subset of years (117/3275, or about 4%). We remove county codes with more than one missing year, leaving 34 counties for which registration totals are interpolated from adjacent years. Many of these county codes are for remote areas with low populations (e.g., the Aleutian Islands in Alaska). Of the 3140 viable counties, it is found that 1406 lack EV registrations or public charging stations in any analysis year. These counties are excluded from analysis because they lack variation for model estimation. Figure @fig-missing illustrates that a further 80% of the remaining counties did not have EV registrations in 2012. While kept in the dataset for analysis, the high proportion of zero-valued observations poses a significant challenge for statistical inference.
+After filtering out protectorates and other non-state locations, several county codes in the Experian data remain that are missing registration totals in a subset of years (117/3275, or about 4%). We remove county codes with more than one missing year, leaving 34 counties for which registration totals are interpolated from adjacent years. Many of these county codes are for remote areas with low populations (e.g., the Aleutian Islands in Alaska). Of the 3140 viable counties, it is found that 1406 lack EV registrations or public charging stations in any analysis year. These counties are excluded from analysis because they lack variation for model estimation. @fig-missing illustrates that a further 80% of the remaining counties did not have EV registrations in 2012. While kept in the dataset for analysis, the high proportion of zero-valued observations poses a significant challenge for statistical inference.
 
 ```{python}
-
-#\| label: fig-missing
-
-#\| fig-cap: "Missing data by year"
+#| layout-ncol: 1
+#| label: fig-missing
+#| fig-cap: "Counties with no PEV registrations by year"
 
 ax = (gdf[gdf.pev_cap==0].groupby("YEAR").count()["pev_cap"]/gdf.groupby("YEAR").count()["pev_cap"]).plot(kind="bar")
-# ax.
+ax.set_xlabel('Year')
+ax.set_ylabel('Percent Total')
+ax.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1.0))
+plt.xticks(rotation = 0)
 plt.show()
-
 ```
 
 ## Covariates
 
-Census data was compiled to construct county-level statistics for median income and racial composition. Five-year American Community Survey (ACS) data were used to approximate annual variation. We use the 2011-2015 ACS for years 2012 and 2014 and the 2016-2020 ACS for years 2016, 2018, and 2020. For the purposes of analysis, we define minority racial groups as Black and Hispanic based on an overrepresentation of poverty according to Census Bureau analysis (https://www.census.gov/library/stories/2020/09/poverty-rates-for-blacks-and-hispanics-reached-historic-lows-in-2019.html#:\~:text=In%202019%2C%20the%20share%20of,share%20in%20the%20general%20population.). We also include American Indian and Alaska native, and Native Hawaiian and Other Pacific Island, and Other Race Not Specified in our definition.
+Census data was compiled to construct county-level statistics for median income and racial composition. Five-year American Community Survey (ACS) data were used to approximate annual variation. We use the 2011-2015 ACS for years 2012 and 2014 and the 2016-2020 ACS for years 2016, 2018, and 2020. For the purposes of analysis, we define minority racial groups as Black and Hispanic based on an overrepresentation of poverty according to Census Bureau analysis [@uscensusbureau2020]. We also include American Indian and Alaska native, and Native Hawaiian and Other Pacific Island, and Other Race Not Specified in our definition.
 
-To capture spatial spillover effects, a Queen contiguity matrix is constructed for charging station density (per 100,000 inhabitants) in adjacent counties. The rationale is that an individual may purchase an EV if there are charging stations in adjacent counties and charge at their residence when driving in their home county.
+To capture spatial spillover effects, a Queen contiguity matrix is constructed for charging station density (per 100,000 persons) in adjacent counties. The rationale is that an individual may purchase an EV if there are charging stations in adjacent counties and charge at their residence when driving in their home county. This specification is termed a *spatial lag in X* model in the spatial econometric literature [@elhorst2017]*.*
 
-Nick TO DO: - Could help describe the data we used a bit
+Several studies [@sheldon2019; @li2017] find that gas price at the pump is an important factor for PEV adoption. We construct a fuel price variable using annual average prices for the United States provided by the EIA [@eia2022]. We adjust these totals to account for state variation using current state-level averages provided by AAA [@aaa2022]. Prices are then adjusted to 2020 dollar to ensure consistent parameter inference.
 
 ## Model Specification
 
-We use the causal-curve Python package developed by Kobrosly (REF). This package uses a generalized linear model (GLM) to construct the GPS and a generalized additive model (GAM). The GAM model takes as inputs the GPS, a treatment grid, and a number of splines. We use the default 100 unit grid and 30 splines (i.e., separating the GPS space using 30 basis functions).
+We use the causal-curve Python package developed by Kobrosly [@kobrosly2020] for potential outcomes causal inference. This package uses a generalized linear model (GLM) to construct the GPS and a generalized additive model (GAM) to estimate the dose-response curve. The GAM model takes as inputs the GPS, a treatment grid, and a number of splines. We use the default 100 unit grid and 30 splines (i.e., separating the GPS space using 30 basis functions). The model includes state-year fixed effects to account for unobserved policy variation and approxiamte autocorrelation between observations for the same county. Extensions to this model formulation are left for future work.
+
+Causal mediation is explored for two variables. First, we consider the mediating effect of EVSE on grid carbon intensity. We use state-level eGrid data available for each analysis year. The treatment variable in this case is state annual $CO_2$ equivalent output emissions measured in lbs per MWh. We hypothesize that public EVSE access may not be as important to PEV adoption as perceived environmental benefit as measured by grid emissions output intensity.
+
+Second, we use 2020 county-level presidential election results as a proxy for local political effects. Climate policies have been more strongly pushed by Democratic presidential administrations, including the recent legislation by the Biden Administration to support PEV charging station infrastructure. Climate policy is also set at the state-level, so gubernatorial election returns are an alternative political variable. However, consistent county-level data were not readily available from a single source. The causal hypothesis is that political affiliation is associated with a proclivity towards environmentally considerations when purchasing a vehicle. A change in EVSE access is a mediating variable on higher Democratic affiliation (as a proxy for public sentiments about the need for climate change action) leading to PEV adoption.
 
 # Results
 
 ## Descriptive Analysis
 
-Figure \@fig-us-totals provides a first validation of the research hypothesis. Registered plugin electric vehicles (PEVs) and public charging stations are normalized by population and plotted over the eight year analysis period for the United States. The two infrastructure show a similar exponential increase, suggesting there is a correlation between their adoption but giving no indication of temporal phasing or causality.
-
-The classical Granger causality test assumes stationary data, which is not the case here based on visual inspection and confirmed by ADF and KPSS tests. Several non-linear extensions to Granger causality have been developed in recent years (REF). One challenge applying such methods to our application is that non-linear methods require a larger time series than the five annual totals purchased from Experian. We address this limitation by leveraging the multiple observations available in each year.
-
-Seems unlikely that interaction is occuring at a sub-annual basis given the time lag and information acquisition requirements between vehicle purchase and infrastructure construction. Granger: "Whether or not a model involving some group of economic variables can be a simple causal model depends on what one considers to be the speed with which information flows through the economy and also on the sampling period of the data used. It might be true that when quarterly data are used, for example, a simple causal model is not sufficient to explain the relationships between the variables, while for monthly data a simple causal model would be all that is required. Thus, some nonsimple causal models may be constructed not because of the basic pro- perties of the economy being studied but because of the data being used."
+\@fig-us-totals provides a first validation of the research hypothesis that there is a relationship between PEV adoption and EVSE access. Registered PEVs and public charging stations are normalized by population and plotted over the eight year analysis period for the United States. The two infrastructure show a similar exponential increase, suggesting there is a correlation between their adoption but giving no indication of temporal phasing or causality. This initial plot also ignores regional variations, which will be important to understanding the drivers of the relationship.
 
 ```{python}
 if not publish:
@@ -397,7 +422,7 @@ if not publish:
 ```{python}
 #| layout-ncol: 1
 #| label: fig-us-totals
-#| fig-cap: "US BEV Registrations and Charging Stations"
+#| fig-cap: "US PEV registrations and charging stations by year"
 plt.style.use('seaborn-white')
 us_tot = gdf.groupby("YEAR").sum().reset_index()
 us_tot["pev_cap"] = (us_tot["pev"]/us_tot["ALUBE001"])*100000
@@ -405,7 +430,7 @@ us_tot["cEVSE_cap"] = ((us_tot["cEVSE-L01"]+us_tot["cEVSE-L02"]+us_tot["cEVSE-L0
 
 fig, ax = plt.subplots()
 x = us_tot.YEAR
-y1 = us_tot.bev_cap
+y1 = us_tot.pev_cap
 y2 = us_tot.cEVSE_cap
 
 ax2 = ax.twinx()
@@ -422,120 +447,118 @@ ax.legend(lns, labs, loc='upper left', frameon=True);
 plt.show()
 ```
 
-The Bipartisan Infrsatructure Act places a strong focus on equitable investment allocation. Equity can be explored both inter-regionally and intra-regionally by key demographic features. Figure 2 compares the distribution of charging stations for four representative cities. Omaha is located in the central Great Plains, a region that has received minimal exploration in the EV literature. Chicago and Detroit are large cities with well-documented histories of housing segregation (REF). San Francisco is included as an example of a large city in a progressive state. In all four cities, charging stations are concentrated in the central city. San Francisco does not show clear evidence of inequality, likely partially as a function of the overall high density of charging stations. However, Chicago and Detroit both show clear patterns of low charging station density in their majority-minority communities and unexpectedly high station densities in low density suburban communities. While there are few charging stations in Omamah, those outside its downtown are located along an east-west axis along the I-80 corridor. There are few stations in north and south Omaha, which are enclaves of black and hispanic residents, respectively.
+The Bipartisan Infrastructure Act places a strong focus on equitable investment allocation. Equity can be explored both inter-regionally and intra-regionally by key demographic features. \@fig-equity compares the distribution of charging stations for four representative cities. Omaha is located in the central Great Plains, a region that has received minimal exploration in the EV literature. Chicago and Detroit are large cities with well-documented histories of housing segregation [@menendian2020]. San Francisco is included as an example of a large city in a progressive state. In all four cities, charging stations are concentrated in the central city. San Francisco does not show clear evidence of inequality, likely partially as a function of the overall high density of charging stations. However, Chicago and Detroit both show clear patterns of low charging station density in their majority-minority communities and unexpectedly high station densities in low density suburban communities. While there are few charging stations in Omaha, those outside its downtown are located along an east-west axis along the I-80 corridor. There are few stations in north and south Omaha, which are enclaves of Black and Hispanic residents, respectively. Similar inequities have been observed across US cities for other transportation infrastructure investments, such as rail transit stations that map more closely to income than population density [@spieler2020].
 
 ```{python}
 #| label: fig-equity
-#| fig-cap: "Equity plot"
+#| fig-cap: Charging station locations for four metropolitan regions
 if publish:
     gdf_ch_stn = gpd.read_parquet("charge_station_tracts.parquet")
     gdf_pop_tr = gpd.read_parquet("population_tracts.parquet")
     image = Image.open('equity_by_city.png')
     display(image)
 else:
-  df_pop_tr = pd.read_csv("../Data/Census/Population_Race_Tract/nhgis0008_ds248_2020_tract.csv", encoding='latin-1')
-  tract_sf = gpd.read_file("../Data/GIS/cb_2020_us_tract_500k/cb_2020_us_tract_500k.shp")
-  tract_sf = tract_sf.to_crs(4326)
+    df_pop_tr = pd.read_csv("../Data/Census/Population_Race_Tract/nhgis0008_ds248_2020_tract.csv", encoding='latin-1')
+    tract_sf = gpd.read_file("../Data/GIS/cb_2020_us_tract_500k/cb_2020_us_tract_500k.shp")
+    tract_sf = tract_sf.to_crs(4326)
 
-  # geometry = [Point(xy) for xy in zip(df_ch_stn.Longitude, df_ch_stn.Latitude)]
-  # crs = 4326
-  # gdf_ch_stn = gpd.GeoDataFrame(df_ch_stn, crs=crs, geometry=geometry)
+    # geometry = [Point(xy) for xy in zip(df_ch_stn.Longitude, df_ch_stn.Latitude)]
+    # crs = 4326
+    # gdf_ch_stn = gpd.GeoDataFrame(df_ch_stn, crs=crs, geometry=geometry)
 
-  df_pop_tr['GEOID'] = df_pop_tr['GEOID'].map(lambda x: x.lstrip('14000'))
-  tract_sf['AFFGEOID'] = tract_sf['AFFGEOID'].map(lambda x: x.lstrip('1400000'))
+    df_pop_tr['GEOID'] = df_pop_tr['GEOID'].map(lambda x: x.lstrip('14000'))
+    tract_sf['AFFGEOID'] = tract_sf['AFFGEOID'].map(lambda x: x.lstrip('1400000'))
 
-  gdf_pop_tr = tract_sf.merge(df_pop_tr, left_on = 'AFFGEOID', right_on = 'GEOID', how = 'inner')
-  gdf_pop_tr.loc[:,["STATEFP","COUNTYFP"]] = gdf_pop_tr.loc[:,["STATEFP","COUNTYFP"]].astype(int)
-# Minority is hispanic, black, native american, pacific islander, and some other race alone (do not include mixed race for simplicity)
-  gdf_pop_tr['Minority_Percent'] = ((gdf_pop_tr['U7C002']+gdf_pop_tr['U7C006']+gdf_pop_tr['U7C007']+gdf_pop_tr['U7C009']+gdf_pop_tr['U7C010'])/gdf_pop_tr['U7C001'])*100
-  gdf_pop_tr = gdf_pop_tr[~gdf_pop_tr.Minority_Percent.isnull()]
-  gdf_pop_tr.to_parquet("population_tracts.parquet")
+    gdf_pop_tr = tract_sf.merge(df_pop_tr, left_on = 'AFFGEOID', right_on = 'GEOID', how = 'inner')
+    gdf_pop_tr.loc[:,["STATEFP","COUNTYFP"]] = gdf_pop_tr.loc[:,["STATEFP","COUNTYFP"]].astype(int)
+    # Minority is hispanic, black, native american, pacific islander, and some other race alone (do not include mixed race for simplicity)
+    gdf_pop_tr['Minority_Percent'] = ((gdf_pop_tr['U7C002']+gdf_pop_tr['U7C006']+gdf_pop_tr['U7C007']+gdf_pop_tr['U7C009']+gdf_pop_tr['U7C010'])/gdf_pop_tr['U7C001'])*100
+    gdf_pop_tr = gdf_pop_tr[~gdf_pop_tr.Minority_Percent.isnull()]
+    gdf_pop_tr.to_parquet("population_tracts.parquet")
 
-  norm = plt.Normalize(0, 100)
+    norm = plt.Normalize(0, 100)
 
 # Plotting
-  projection=gcrs.AlbersEqualArea(central_longitude=-98, central_latitude=39.5)
-  fig, axs = plt.subplot_mosaic([["a)","b)"],["c)","d)"]], subplot_kw={'projection':projection}, figsize=(15, 12))
-  fig.tight_layout()
+    projection=gcrs.AlbersEqualArea(central_longitude=-98, central_latitude=39.5)
+    fig, axs = plt.subplot_mosaic([["a)","b)"],["c)","d)"]], subplot_kw={'projection':projection}, figsize=(10, 10))
+    fig.tight_layout()
 
-  for label, ax in axs.items():
-  #
-    if label=="a)":
-        statefp = [31]
-        countyfp = [55]
-        size = 3
-        y_trans = 1.25
-        dfplot = gdf_ch_stn[(gdf_ch_stn['STATEFP'].isin(statefp)) & (gdf_ch_stn['COUNTYFP'].isin(countyfp))]
-        label = " Omaha (N={0})".format(dfplot.shape[0])
-    elif label=="b)":
-        statefp = [17]
-        # countyfp = ['031', '043', '197']
-        countyfp = [31]
-        size = 2.7
-        y_trans=-20/72
-        dfplot = gdf_ch_stn[(gdf_ch_stn['STATEFP'].isin(statefp)) & (gdf_ch_stn['COUNTYFP'].isin(countyfp))]
-        label+=" Chicago (N={0})".format(dfplot.shape[0])
-    elif label=="c)":
-        statefp = [6]
-        countyfp = [75, 81, 41, 1, 85]
-        size = 1.5
-        y_trans=5/72
-        dfplot = gdf_ch_stn[(gdf_ch_stn['STATEFP'].isin(statefp)) & (gdf_ch_stn['COUNTYFP'].isin(countyfp))]
-        label+=" San Francisco (N={0})".format(dfplot.shape[0])
-    else:
-        statefp = [26]
-        countyfp = [163, 125, 99]
-        size = 3
-        y_trans=5/72
-        dfplot = gdf_ch_stn[(gdf_ch_stn['STATEFP'].isin(statefp)) & (gdf_ch_stn['COUNTYFP'].isin(countyfp))]
-        label+=" Detroit (N={0})".format(dfplot.shape[0])
-      
-  gplt.choropleth(
-    gdf_pop_tr[(gdf_pop_tr['STATEFP'].isin(statefp)) & (gdf_pop_tr['COUNTYFP'].isin(countyfp))],
-    hue = "Minority_Percent",
-    # legend=True,
-    # legend_kwargs={'boundaries': (0,100,200,300,400)},
-    edgecolor='darkgrey',
-    linewidth=.5,
-    cmap="magma_r",
-    norm = norm,
-    zorder = 1,
-    ax=ax
-  )
-  
-  gplt.pointplot(
-    dfplot,
-    ax = ax,
-    color = 'white',
-    zorder = 2,
-    s = size,
-  )
-  trans = mtransforms.ScaledTranslation(10/72, y_trans, fig.dpi_scale_trans)
-  ax.text(0.0, 1.0, label, transform=ax.transAxes + trans,
-          fontsize='large', verticalalignment='top', fontfamily='serif',
-          bbox=dict(facecolor='none', edgecolor='none', pad=3.0))
-  
-  fig.savefig('equity_by_city.png', bbox_inches='tight', dpi = 300)
-# fig = plt.figure()
-# ax = fig.add_axes([0.05, 0.80, 0.9, 0.1])
-# 
-# cb = mpl.colorbar.ColorbarBase(ax,
-#     orientation='horizontal', 
-#     cmap='magma_r',
-#     norm = norm)
+    for label, ax in axs.items():
+        #
+        if label=="a)":
+            statefp = [31]
+            countyfp = [55]
+            size = 3
+            y_trans = 1.4
+            dfplot = gdf_ch_stn[(gdf_ch_stn['STATEFP'].isin(statefp)) & (gdf_ch_stn['COUNTYFP'].isin(countyfp))]
+            label += " Omaha (N={0})".format(dfplot.shape[0])
+        elif label=="b)":
+            statefp = [17]
+            # countyfp = ['031', '043', '197']
+            countyfp = [31]
+            size = 2.7
+            y_trans=-20/72
+            dfplot = gdf_ch_stn[(gdf_ch_stn['STATEFP'].isin(statefp)) & (gdf_ch_stn['COUNTYFP'].isin(countyfp))]
+            label+=" Chicago (N={0})".format(dfplot.shape[0])
+        elif label=="c)":
+            statefp = [6]
+            countyfp = [75, 81, 41, 1, 85]
+            size = 1.5
+            y_trans=10/72
+            dfplot = gdf_ch_stn[(gdf_ch_stn['STATEFP'].isin(statefp)) & (gdf_ch_stn['COUNTYFP'].isin(countyfp))]
+            label+=" San Francisco (N={0})".format(dfplot.shape[0])
+        else:
+            statefp = [26]
+            countyfp = [163, 125, 99]
+            size = 3
+            y_trans=0
+            dfplot = gdf_ch_stn[(gdf_ch_stn['STATEFP'].isin(statefp)) & (gdf_ch_stn['COUNTYFP'].isin(countyfp))]
+            label+=" Detroit (N={0})".format(dfplot.shape[0])
+
+        gplt.choropleth(
+          gdf_pop_tr[(gdf_pop_tr['STATEFP'].isin(statefp)) & (gdf_pop_tr['COUNTYFP'].isin(countyfp))],
+          hue = "Minority_Percent",
+          # legend=True,
+          # legend_kwargs={'boundaries': (0,100,200,300,400)},
+          edgecolor='darkgrey',
+          linewidth=.5,
+          cmap="magma_r",
+          norm = norm,
+          zorder = 1,
+          ax=ax
+        )
+
+        gplt.pointplot(
+          dfplot,
+          ax = ax,
+          color = 'white',
+          zorder = 2,
+          s = size,
+        )
+        trans = mtransforms.ScaledTranslation(10/72, y_trans, fig.dpi_scale_trans)
+        #ax.title()
+        ax.text(0.0, 1.0, label, transform=ax.transAxes + trans,
+                fontsize='large', verticalalignment='top', fontfamily='serif',
+                bbox=dict(facecolor='none', edgecolor='none', pad=3.0))
+
+        fig.savefig('equity_by_city.png', bbox_inches='tight', dpi = 300)  
 
 ```
 
-Another simple descriptive comparison between the PEV and charging station markets is shown in Figure 3. PEV sales market share is plotted against charging stations per thousand residents as of 2020. While there appears to be a positive correlation between these infrastructures, there are clearly other factors at play - e.g., observe the difference between California and Vermont.
+Another useful descriptive comparison between the PEV and charging station markets is shown in @fig-state-compare. PEV sales market share is plotted against charging stations per thousand residents as of 2020. While there appears to be a positive correlation between these infrastructures, there are clearly other factors at play - e.g., observe the difference between California and Vermont. This comparison suggests that there are other factors that drive PEV adoption and it may not be sufficient to simply install EVSE.
 
 ```{python}
+#| label: fig-state-compare
+#| fig-cap: "Charging stations and PEV sales by state in 2020"
+
 timeseriesx = []
 timeseriesy = []
 
+merged_df = pd.DataFrame(geo_ch_stn)
 yearpop = 2019
 year = 2020
 
-merged_year = gdf_ch_stn.loc[gdf_ch_stn.YEAR < yearpop]
+merged_year = merged_df.loc[merged_df.YEAR < yearpop]
 
 num_stations_by_state = merged_year['State'].value_counts()
 
@@ -559,20 +582,24 @@ share_v_stations_plot = sns.scatterplot(
     data = stations_vs_marketshare,
     x="stations_cap", y="ev_share",
 )
-share_v_stations_plot.set_xlabel("Charging Stations per Thousand Inhabitants")
-share_v_stations_plot.set_ylabel("PEV (BEV+PHEV) Sales Market Share (%)")
+share_v_stations_plot.set_xlabel("Charging Stations per Thousand Persons")
+share_v_stations_plot.set_ylabel("PEV Sales Market Share")
 share_v_stations_plot.set(xlim=(0, 0.4))
 share_v_stations_plot.set(ylim=(0, 10))
+share_v_stations_plot.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=100.0))
 
 
 # Just for fun
-state_labels = ["California", "Vermont", "Florida", "District of Columbia","Hawaii","Oregon", "Washington"]
+state_labels = ["California", "Vermont", "Colorado", "District of Columbia","Washington", "Hawaii"]
 i = 0
 # for state in stations_vs_marketshare['Geographic Area']:
 for state in state_labels:
     x = stations_vs_marketshare.loc[stations_vs_marketshare['Geographic Area'] == state, 'stations_cap'].iloc[0]
     y = stations_vs_marketshare.loc[stations_vs_marketshare['Geographic Area'] == state, 'ev_share'].iloc[0]
-    share_v_stations_plot.text(x + 0.005, y - 0.001 , state)
+    if state=="Hawaii":
+        share_v_stations_plot.text(x + 0.005, y - 0.5 , state)
+    else:    
+        share_v_stations_plot.text(x + 0.005, y - 0.001 , state)
     timeseriesx.append([])
     timeseriesy.append([])
     timeseriesx[i].append(x)
@@ -583,7 +610,7 @@ for state in state_labels:
 plt.show()
 ```
 
-## Phasing Causality Analysis
+## Phasing Causality
 
 ```{python}
 if not publish:
@@ -616,7 +643,7 @@ if not publish:
     kpss_test(us_tot['cEVSE_cap'])
 ```
 
-Before conducting the causality testing, we use Augmented Dickey-Fuller (ADF) and Kwiatkouski-Phillips-Schmidt-Shin (KPSS) tests for stationarity tests were applied to the aggregated US time series and its first differenced analogue. In both cases, it was found that the time series is non-stationary. ADF and KPSS tests were also iteratively applied to each county time series with simiar results.
+Before conducting the phasing causality tests, we applied Augmented Dickey-Fuller (ADF) and Kwiatkouski-Phillips-Schmidt-Shin (KPSS) tests for stationarity to the aggregated US time series and its first differenced analogue. In both cases, it was found that the time series is non-stationary. ADF and KPSS tests were also iteratively applied to each county time series with similar results.
 
 ```{python}
 if not publish:
@@ -627,11 +654,11 @@ if not publish:
     adf_test(us_tot_diff['cEVSE_cap'])
 ```
 
-A limitation to the machine learning-based causality tests is that they require large datasets to perform inference on a highly non-stationary time series. Five annual datapoints is insufficient to run the tests. We overcome this barrier by leveraging the spatio-temporal nature of our dataset. The strategy is to consider each county as a slice of a spatio-temporal series. We select only the 2020 data and assume that charging stations and EV registrations in that year may be affected by their corresponding observations in previous years but not observations in other counties. This approach effectively defines a spatio-temporal series with a maximum lag of four units (lagged 2018, 2016, 2014, and 2012) plus an instantaneous effect (2020). Figure @fig-lags illustrates the concept for five random counties.
+A limitation to the machine learning-based causality tests is that they require large datasets to perform inference on a highly non-stationary time series, as we found to be the case here. Five annual data points is insufficient to run the tests. We overcome this barrier by leveraging the spatio-temporal nature of our dataset. The strategy is to consider each county as a slice of a spatio-temporal series. We select only the 2020 data and assume that charging stations and EV registrations in that year may be affected by their corresponding observations in previous years but not observations in other counties. This approach effectively defines a spatio-temporal series with a maximum lag of four units (lagged 2018, 2016, 2014, and 2012 observations) plus an instantaneous effect (the 2020 observation). @fig-lags illustrates the concept for five randomly selected counties.
 
 ```{python}
 #| label: fig-lags
-#| fig-cap: "Lags plot"
+#| fig-cap: "Spatio-temporal lag illustration for five random counties"
 np.random.seed(seed=98765)
 plt.style.use('seaborn-white')
 GEOID_list = np.random.choice(pd.unique(gdf.GEOID),size=5,replace=False)
@@ -645,7 +672,7 @@ ymax2 = 250 # maximum cEVSE_cap value
 
 fig, ax = plt.subplots()
 for i, j in enumerate(GEOID_list):
-    x = sub_df[sub_df.GEOID==j].YEAR+i*10
+    x = sub_df[sub_df.GEOID==j].YEAR+i*12
     y1 = sub_df[sub_df.GEOID==j].pev_cap
     y2 = sub_df[sub_df.GEOID==j].cEVSE_cap
 
@@ -663,13 +690,12 @@ for i, j in enumerate(GEOID_list):
         ax.plot(x, y1, '-b', label='PEVs')
         ax2.plot(x,y2, '--r', label="Charging stations")
     ax.annotate('County {0}'.format(i+1), 
-             xy=(0.05+i*0.2, -0.1), # these are the coordinates to position the label
+             xy=(0.05+i*0.2, -0.25), # these are the coordinates to position the label
              xycoords='axes fraction') # you can pass any extra params too
     
-ax.set_xticks([i for i in range (2012,2061,2)])
-ax.set_xticklabels([i for i in range(2012,2021,2)]*5)
+ax.set_xticks([2012, 2016, 2020, 2024, 2028, 2032, 2036, 2040, 2044, 2048, 2052, 2056, 2060, 2064, 2068])
+ax.set_xticklabels([i for i in range(2012,2021,4)]*5, rotation = 45)
 ax.set_xlabel('Year')
-ax.legend(lns, labs, loc='upper left', frameon=True);
 plt.show()
 ```
 
@@ -748,9 +774,13 @@ plt.show()
 # run_nonlin(data_train,data_test,lag).to_csv("granger_df_ch_pev_lag.csv")
 ```
 
-We perform the non-linear causality tests using MLP, LSM, GRU, and ARIMA models. Given that charging station data can be aggregated to annual totals in every year, we also test both one and two year lags alternatively considering charging stations and EV registrations as the causal impetus. That is, we consider 2012, 2014, 2016, 2018, and 2020 station totals and 2011, 2015, 2017, and 2019 totals causing EV registrations in the five available years, then add 2021 station totals and consider EV registrations as causing charging station deployments. In neither case are definitive results found to support either causal mechanisms. These results indicate a feedback relationship between the two variables of interest. While our spatio-temporal approach allows us to perform these statistical tests, it does not allow us to test for feedback effects because the underlying time series remains too short.
+We perform the non-linear causality tests using MLP, LSM, GRU, and ARIMA models, with resulted summarized in @tab-phasing-tests. Given that charging station data can be aggregated to annual totals in every year, we also test both one and two year lags alternatively considering charging stations and EV registrations as the causal impetus. That is, we consider 2012, 2014, 2016, 2018, and 2020 station totals and 2011, 2015, 2017, and 2019 station totals causing PEV registrations in the five available years, then add 2021 station totals and consider PEV registrations as causing charging station deployments. None of these analyses gives definitive support for either causal mechanisms. These results indicate a feedback relationship between the two variables of interest. While our spatio-temporal approach allows us to perform these statistical tests, it does not allow us to test for feedback effects because the underlying time series remains too short.
+
+Granger [@granger1969] notes that the speed of information flow is an important factor in causal phasing, as well as the data sampling frequency. He suggests that results may differ depending upon if analysis is conducted at an annual, quarterly, or monthly frequency. However, the electric transportation market does not change fast enough pace for sub-annual variation to be significant. Two pertinent factors to consider are that vehicles tend to be kept for many years and a single charging station is unlikely to incentive widespread EV purchases in a county. As such, it is unlikely that individuals respond to charging station investments at a sub-annual frequency and this frequency is deemed acceptable.
 
 ```{python}
+#| label: tab-phasing-tests
+#| tabl-cap: "Phasing Causality Test Results"
 # Load in the Granger causality results and create a table from it
 df_gr_pev_ch = pd.read_csv("granger_df_pev_ch.csv")
 df_gr_ch_pev = pd.read_csv("granger_df_ch_pev.csv")
@@ -769,18 +799,23 @@ def bold_sig(v, p_val_col = "", props='', threshold=0.05):
     return np.where(df1[p_val_col].le(threshold), props, "")
 
 df1.sort_values(by=["model","lag"],inplace=True)
-df1.style.apply(bold_sig, p_val_col="p_value_pc", props="font-weight: bold;", subset=( "cohens_d_pc"), axis=0, threshold=0.05) \
-.apply(bold_sig, p_val_col="p_value_cp", props="font-weight: bold;", subset=( "cohens_d_cp"), axis=0, threshold=0.05) \
-.apply(bold_sig, p_val_col="p_value_pcl", props="font-weight: bold;", subset=( "cohens_d_pcl"), axis=0, threshold=0.05) \
-.apply(bold_sig, p_val_col="p_value_cpl", props="font-weight: bold;", subset=( "cohens_d_cpl"), axis=0, threshold=0.05) \
+df1.rename(columns={"model":"Model","lag":"Lag","cohens_d_pc":"(1)", "cohens_d_cp":"(2)","cohens_d_pcl":"(3)","cohens_d_cpl":"(4)"}, inplace=True)
+df1.style.apply(bold_sig, p_val_col="p_value_pc", props="font-weight: bold;", subset=( "(1)"), axis=0, threshold=0.05) \
+.apply(bold_sig, p_val_col="p_value_cp", props="font-weight: bold;", subset=( "(2)"), axis=0, threshold=0.05) \
+.apply(bold_sig, p_val_col="p_value_pcl", props="font-weight: bold;", subset=( "(3)"), axis=0, threshold=0.05) \
+.apply(bold_sig, p_val_col="p_value_cpl", props="font-weight: bold;", subset=( "(4)"), axis=0, threshold=0.05) \
 .hide(subset=["p_value_pc","p_value_cp","p_value_pcl","p_value_cpl"], axis="columns") \
 .hide(axis="index").format(precision=3) \
-.highlight_max(subset=["cohens_d_pc","cohens_d_cp","cohens_d_pcl","cohens_d_cpl"], color='grey', axis=0, props=None)
+.highlight_max(subset=["(1)","(2)","(3)","(4)"], color='grey', axis=0, props=None)
 ```
 
-## Dose-Response Results
+## GPS-Based Potential Outcomes Causality
 
-With inclusive phasing causality results, we maintain the assumption that charging stations cause EV registrations in the dose-response analysis.
+Given the inconclusive phasing causality results, we maintain the assumption that charging stations cause PEV registrations in subsequent analysis. This section first presents the GPS model results that are input into the GAM dose-response model. We then provide the dose-response results, followed by mediation model results.
+
+### GPS Model Results
+
+The GPS model includes spatially lagged charging stations per 100,000 persons in adjacent counties, the portion of the population that identifies as a minority, median household income in \$10,000, and state-year fixed effects (omitted from @tab-gps-results). As expected, we find that charging stations in adjacent counties are correlated with more charging stations in the home county. Counties with higher minority population shares tend to have lower charging station access. Income is found to have a negative effect on charging station access. At first glance, this is an unintuitive result because we tend to see more amenities in higher income communities. A plausible reason for this result is that higher income counties tend to have larger homes in which residents can charge their vehicles, thus reducing the need for public charging stations. As illustrated in @fig-equity, charging stations are concentrated in urban counties that tend to have lower median incomes than their surrounding suburban counties. The pump price parameter has the expected positive sign, indicative of more charging stations when and where conventional fuel prices are high.
 
 ```{python}
 gps = GPS_Regressor(verbose=False)
@@ -788,7 +823,7 @@ check = gdf[gdf.YEAR==2020]
 T = gdf['cEVSE_cap']
 y = gdf['pev_cap']
 # Covariates are spatial lag charging stations, state FE, percent minority, and income in $1000
-X = pd.concat([gdf.xW,gdf.filter(like="sy_",axis=1),gdf.Percent_Minority,gdf.ABDPE001/1000],axis=1)
+X = pd.concat([gdf.xW,gdf.filter(like="sy_",axis=1),gdf.Percent_Minority,gdf.ABDPE001/1000, gdf.price_2020],axis=1)
 #X = pd.concat([check.Percent_Minority,check.ABDPE001/1000],axis=1)
 
 gps.fit(T=T, X = X, y=y);
@@ -796,6 +831,23 @@ gps_results = gps.calculate_CDRC(0.95)
 ```
 
 ```{python}
+#| label: tab-gps-results
+#| tabl-cap: "GPS Model Results"
+mr = gps.gps_results
+df_mod = pd.concat([mr.params,mr.tvalues],axis=1)
+df_mod.columns = ["est.","t-stat"]
+filt_idx = df_mod[df_mod.index.str.contains("sy_")].index
+df_mod.rename(index={"xW":"Lagged charging stations","ABDPE001":"Household income ($10,000)","Percent_Minority":"Percent minority", "price_2020":"Pump gas price (2020$)"}, inplace=True)
+df_mod.style.hide(subset=filt_idx, axis="index").format({'est.': "{:.2}","t-stat":"{:.2f}"})
+```
+
+## Dose-Response Model Results
+
+@fig-dose-response confirms the hypothesis that charging station access encourages individuals to purchase PEVs. However, the encouragement tends to become less effective at higher charging station penetration rates. In fact, it becomes negative in the region around 100 charging stations per 100,000 persons when controlling for other covariates. This result fits our finding in @fig-state-compare that California has the highest PEV sales market share despite several other states having more charging stations per capita.
+
+```{python}
+#| label: fig-dose-response
+#| fig-cap: "Dose-response curve for charging stations and PEV registrations"
 def plot_mean_and_CI(ax, treatment, mean, lb, ub, color_mean=None, color_shading=None):
     # plot the shaded range of the confidence intervals
     ax.fill_between(treatment, lb, ub, color=color_shading, alpha=0.3)
@@ -811,21 +863,13 @@ ub = gps_results['Upper_CI']
 plot_mean_and_CI(ax, treat, mean, lb, ub, color_mean='b', color_shading='b')
 
 # Labels
-ax.set_ylabel('PEVs per 100 Thousand Inhabitants ');
-ax.set_xlabel('Charging stations per 100 Thousand Inhabitants');
-```
-
-## GPS Model Results
-
-```{python}
-mr = gps.gps_results
-df_mod = pd.concat([mr.params,mr.tvalues],axis=1)
-df_mod.columns = ["est.","t-stat"]
-filt_idx = df_mod[df_mod.index.str.contains("sy_")].index
-df_mod.style.hide(subset=filt_idx, axis="index").format({'est.': "{:.2}","t-stat":"{:.2f}"})
+ax.set_ylabel('PEVs per 100 Thousand Persons ');
+ax.set_xlabel('Charging stations per 100 Thousand Persons');
 ```
 
 ## Mediation Effect Results
+
+Mediation plots are shown in @fig-med-co2 and @fig-med-elect for grid CO_2e intensity and Democratic vote share, respectively. The mediation plots show the proportion of the effect from each treatment variable that is caused by the mediating effect of charging stations. In the case of CO_2e emissions rate, charging stations account for roughly 18% of the effect for most states. However, in the states with the highest emissions intensities there are either very few registered PEVs (no effect from either charging stations or grid CO_2e intensity) or PEV registrations are driven by charging stations investments despite a high CO2e emissions intensity state grid. These results suggest that lowering grid emissions tends to increase PEV registrations, but it is also feasible to encourage minimal PEV adoption with a highly emitting grid via investments in charging station infrastructure.
 
 ```{python}
 if not publish:
@@ -856,20 +900,28 @@ if not publish:
 ```
 
 ```{python}
+#| label: fig-med-co2
+#| fig-cap: "Mediation results for CO2"
 if publish:
     image = Image.open('mediation_curve_co2.png')
     display(image)
 else:
-    ax = plt.subplot(111)  
-    ax.plot(PIR_grid, f(PIR_grid), color = 'steelblue')
-    ax.spines["top"].set_visible(False)  
-    ax.spines["right"].set_visible(False)  
-    ax.get_xaxis().tick_bottom()  
-    ax.get_yaxis().tick_left()
-    ax.set_ylabel('Proportion Indirect Effect')
-    ax.set_xlabel('State Annual CO2e Emission Rate (lb/MWh)')
-    ax.set_ylim(0,1)
-    ax.tick_params(axis='both', which='major')
+    st_tot = gdf[gdf.YEAR==2020].groupby(["STATE"]).agg({'STC2ERTA':'mean', 'pev': 'sum', 'ALUBE001': 'sum'}).reset_index()
+    st_tot.pev_cap = (st_tot["pev"]/st_tot["ALUBE001"])*100000
+    fig, (ax1,ax2) = plt.subplots(1,2)
+    ax1.plot(PIR_grid, f(PIR_grid), color = 'steelblue')
+    ax1.spines["top"].set_visible(False)  
+    ax1.spines["right"].set_visible(False)  
+    ax1.get_xaxis().tick_bottom()  
+    ax1.get_yaxis().tick_left()
+    ax1.set_ylabel('Proportion Indirect Effect')
+    ax1.set_xlabel('State Annual CO2e Emissions\nRate (lb/MWh)')
+    ax1.set_ylim(0,1)
+    ax1.tick_params(axis='both', which='major')
+    ax2.scatter(st_tot.STC2ERTA, st_tot.pev_cap,s=5)
+    ax2.set_ylabel('PEVs per 100 Thousand\nPersons in 2020')
+    ax2.set_xlabel('State Annual CO2e Emissions\nRate (lb/MWh)')
+    fig.tight_layout()
     plt.savefig('mediation_curve_co2.png', bbox_inches='tight', dpi = 300)
 ```
 
@@ -901,22 +953,32 @@ if not publish:
     PIR_grid = np.linspace(0, 1, num=100, endpoint=True)
 ```
 
+Democratic vote share is mediated by EVSE infrastructure only in the lowest share range. Similar to highly emitting grids, it appears that EVSE investments can mediate the effect of political affiliation on PEV registrations. However, the PEV adoption rates tend to be low in these counties.
+
 ```{python}
+#| label: fig-med-elect
+#| fig-cap: "Mediation results for 2020 presidential election returns"
 if publish:
     image = Image.open('mediation_curve_elections.png')
     display(image)
 else:
-    ax = plt.subplot(111)  
-    ax.plot(PIR_grid, f(PIR_grid), color = 'steelblue')
-    ax.spines["top"].set_visible(False)  
-    ax.spines["right"].set_visible(False)  
-    ax.get_xaxis().tick_bottom()  
-    ax.get_yaxis().tick_left()
-    ax.set_ylabel('Proportion Indirect Effect')
-    ax.set_xlabel('County Democratic Vote Share 2020 Presidential Election')
-    ax.set_ylim(0,1)
-    ax.set_title("Mediation effect of charging stations")
-    ax.tick_params(axis='both', which='major')
+    st_tot = gdf[gdf.YEAR==2020].groupby(["STATE"]).agg({'CAND_VOTES':'sum', 'TOT_VOTES':'sum', 'pev': 'sum', 'ALUBE001': 'sum'}).reset_index()
+    st_tot.pev_cap = (st_tot["pev"]/st_tot["ALUBE001"])*100000
+    st_tot.percent_dem = st_tot.CAND_VOTES/st_tot.TOT_VOTES
+    fig, (ax1,ax2) = plt.subplots(1,2)  
+    ax1.plot(PIR_grid, f(PIR_grid), color = 'steelblue')
+    ax1.spines["top"].set_visible(False)  
+    ax1.spines["right"].set_visible(False)  
+    ax1.get_xaxis().tick_bottom()  
+    ax1.get_yaxis().tick_left()
+    ax1.set_ylabel('Proportion Indirect Effect')
+    ax1.set_xlabel('County Democratic Vote Share\nin 2020 Presidential Election')
+    ax1.set_ylim(0,1)
+    ax1.tick_params(axis='both', which='major')    
+    ax2.scatter(st_tot.percent_dem, st_tot.pev_cap,s=5)
+    ax2.set_ylabel('PEVs per 100 Thousand\nPersons in 2020')
+    ax2.set_xlabel('County Democratic Vote Share\nin 2020 Presidential Election')
+    fig.tight_layout()
     plt.savefig('mediation_curve_elections.png', bbox_inches='tight', dpi = 300)
 ```
 
@@ -956,6 +1018,10 @@ if not publish:
 
 # Discussion and Conclusions
 
-The results presented herein are preliminary and do not consider a key dataset -- vehicle registrations. We will expand our analysis to a more robust inferential study in the coming months. Our causal question is what effect public charging stations have on electric vehicle registrations at the county-level. The treatment variable is continuous over the study period. We propose three causal identification approaches. The first approach is a difference-in-differences approach that is identified off state-level investments in charging stations by year. The second approach is generalized propensity score matching using federal election results, state-level greenhouse gas (GHG) emissions factors, and demographic characteristics (e.g., racial composition, median income, and population density) as inputs to the propensity score.
+A key climate change policy challenge in the transportation sector is how to transition the private vehicle fleet to PEVs. As in many product markets, there is an indirect network effect between household goods purchases and the supply of complementary infrastructure. Zhou and Li [@zhou2018] found a critical mass hurdle may exist in the PEV market, beyond which PEV sales may revert to a no-adoption outcome. Their analysis was based on 2011-2013 data, which we are able to expand upon by making use of an updated and longer time series. We find that many US counties (239 out of 3273 as of 2020) have no registered PEVs (measured as the number of battery-electric and plug-in hybrid electric vehicles). Among those counties that have seen PEV adoption, there is a clear pattern of concurrent charging station installations. We are unable to confirm a causal phasing between the two actions using non-linear Granger causality-type testing. It appears there is a feedback relationship whereby PEVs are purchased and in response suppliers install charging stations, and vice versa. There also appears to be an equilibrium point, an ESCE penetration rate beyond which PEV adoption does not increase absent supporting policies and incentives - see the comparison between California and Vermont in @fig-state-compare. Despite progress in some regions, PEV adoption and EVSE infrastructure in most of the country is limited as of 2020. The high rate of zero valued observations in these datasets suggests that PEV adoption and infrastructure networks are still more concentrated. This concentration decreased in the time period of the study, but still remained high in 2020.
 
-The final causal inference approach, Granger causality, differs in that it focuses on the temporal phasing of charging station installations and PEV registration, whereas the other two approaches rely on Rubin's potential outcome assumption [@reich2021]. Granger causality relies on the assumption that past treatment knowledge reduces predictive uncertainty. It is a form of time series causal inference that would fit the current context well.
+In addition to the lack of findings from the causality models, the GPS model returned significant findings on the affects of race on charging station access. There is a correlation between counties with higher representations of racial minorities and a lower rate of charging stations. There were no significant findings on the effects of income. The dose-response model finds that charging station access encourages PEV adoption up until a certain point, then PEV adoption becomes discouraged by increasing charging stations. Furthermore, the mediation effect results, which studied grid emissions and Democratic voter share per county, showed that both of these effects are mediated by charging station infrastructure at higher levels of emissions and Democratic voter share.
+
+We find support for the Biden administration's focus on equitable distribution of charging infrastructure within regions. Historically segregated cities (e.g., Chicago and Detroit) lack EVSE in their predominantly minority communities, while appearing to have an overabundance of EVSE in their peripheral suburbs. There are also inequities across regions. The Great Plains has very little charging station infrastructure built, as seen by Omaha where EVSE is sparse outside its downtown.
+
+Several updates are proposed to the propensity score function. Despite progress in some regions, PEV adoption and EVSE infrastructure in most of the country is limited as of 2020. As such, there is a high proportion of zero-valued observations. The linear GPS function could be replaced by a Tobit specification, which would capture the zero inflation as a censoring process. The current GPS function also treats observations from the same county as independent. An autoregressive specification could be explored that would match observations across counties but treat sequential observations for the same county as a common unit. Both changes are planned for a future iteration of this work.
