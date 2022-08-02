@@ -1,0 +1,3 @@
+# EV-Chicken-and-Egg-Project
+The documented code supports analysis in the paper "On the Chicken & Egg Problem in Transportation Electrification". The folder **Data** contains the required data to run the scripts. Raw vehicle registrations from Experian are excluded from the repository as they are proprietary data.
+The folder **Publications** contains an executable qmd file that integrates markdown text with Python code. It can be executed in RStudio, Jupyter Labs, or any of several other software packages to generate a formatted pdf file. To execute the full code from scratch, the user must change the indicator "publish" to False.
